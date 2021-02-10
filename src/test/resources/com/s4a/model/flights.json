@@ -1,0 +1,37 @@
+[
+  {
+    "flightId": 0,
+    "flightNumber": 6487,
+    "departureAirportIATACode": "YYZ",
+    "arrivalAirportIATACode": "PPX",
+    "departureDate": "2015-05-27T02:44:59 -02:00"
+  },
+  {
+    "flightId": 1,
+    "flightNumber": 1229,
+    "departureAirportIATACode": "YYT",
+    "arrivalAirportIATACode": "PPX",
+    "departureDate": "2016-03-26T08:24:50 -01:00"
+  },
+  {
+    "flightId": 2,
+    "flightNumber": 9209,
+    "departureAirportIATACode": "ANC",
+    "arrivalAirportIATACode": "LEW",
+    "departureDate": "2017-01-26T09:14:23 -01:00"
+  },
+  {
+    "flightId": 3,
+    "flightNumber": 7750,
+    "departureAirportIATACode": "ANC",
+    "arrivalAirportIATACode": "MIT",
+    "departureDate": "2020-02-05T01:59:24 -01:00"
+  },
+  {
+    "flightId": 4,
+    "flightNumber": 5862,
+    "departureAirportIATACode": "YYZ",
+    "arrivalAirportIATACode": "PPX",
+    "departureDate": "2018-12-17T02:08:15 -01:00"
+  }
+]
