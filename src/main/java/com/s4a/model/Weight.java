@@ -1,14 +1,20 @@
 package com.s4a.model;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class Weight {
     final private double value;
     final private WeightUnit unit;
-
-    public double kg() {
-        return value * unit.multiplier;
+  
+  public Weight(double weight, WeightUnit unit) {
+    this.value = weight;
+    this.unit = unit;
+  }
+  
+  public Weight(double weight, String weightUnit) {
+    this(weight, WeightUnit.valueOf(weightUnit));
+  }
+  
+  public double kg() {
+        return value * (unit.multiplier / WeightUnit.kg.multiplier);
     }
 
     public double lb() {

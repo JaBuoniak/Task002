@@ -10,7 +10,8 @@ public class Flight {
     final private AirportCode departureAirportIATACode;
     final private AirportCode arrivalAirportIATACode;
     final private Instant departureDate;
-    final private List<Load> loads;
+    final private List<Load> baggage;
+    final private List<Load> cargo;
 
     public Flight(int flightId, int flightNumber, AirportCode departureAirportIATACode, AirportCode arrivalAirportIATACode, Instant departureDate) {
         this.flightId = flightId;
@@ -18,10 +19,14 @@ public class Flight {
         this.departureAirportIATACode = departureAirportIATACode;
         this.arrivalAirportIATACode = arrivalAirportIATACode;
         this.departureDate = departureDate;
-        this.loads = new ArrayList<>();
+        this.baggage = new ArrayList<>();
+        this.cargo = new ArrayList<>();
     }
 
-    void loadWith(Load load) {
-        loads.add(load);
+    public void loadWithBaggage(List<Load> baggage) {
+        this.baggage.addAll(baggage);
+    }
+    public void loadWithCargo(List<Load> cargo) {
+        this.baggage.addAll(cargo);
     }
 }
