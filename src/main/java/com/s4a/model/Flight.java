@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Flight {
-    final private int flightId;
-    final private int flightNumber;
+    final public int id;
+    final public int number;
     final private AirportCode departureAirportIATACode;
     final private AirportCode arrivalAirportIATACode;
     final private Instant departureDate;
@@ -14,8 +14,8 @@ public class Flight {
     final private List<Load> cargo;
 
     public Flight(int flightId, int flightNumber, AirportCode departureAirportIATACode, AirportCode arrivalAirportIATACode, Instant departureDate) {
-        this.flightId = flightId;
-        this.flightNumber = flightNumber;
+        this.id = flightId;
+        this.number = flightNumber;
         this.departureAirportIATACode = departureAirportIATACode;
         this.arrivalAirportIATACode = arrivalAirportIATACode;
         this.departureDate = departureDate;
@@ -28,5 +28,13 @@ public class Flight {
     }
     public void loadWithCargo(List<Load> cargo) {
         this.baggage.addAll(cargo);
+    }
+
+    public Weight getTotalCargoWeight() {
+        return new Weight(cargo.stream().mapToDouble(Load::totalKgWeight).sum(), WeightUnit.kg);
+    }
+
+    public Weight getTotalBaggageWeight() {
+        return new Weight(baggage.stream().mapToDouble(Load::totalKgWeight).sum(), WeightUnit.kg);
     }
 }

@@ -28,4 +28,8 @@ public class Load {
         }
         return loadsList;
     }
+
+    public double totalKgWeight() {
+        return weight.kg() * quantity;
+    }
 }

@@ -1,5 +1,6 @@
-package com.s4a.controller;
+package com.s4a;
 
+import com.s4a.FlightsSchedule;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
