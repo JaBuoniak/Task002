@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Flight {
-    private int flightId;
-    private int flightNumber;
-    private AirportCode departureAirportIATACode;
-    private AirportCode arrivalAirportIATACode;
-    private Instant departureDate;
-    private List<Load> loads;
+    final private int flightId;
+    final private int flightNumber;
+    final private AirportCode departureAirportIATACode;
+    final private AirportCode arrivalAirportIATACode;
+    final private Instant departureDate;
+    final private List<Load> loads;
 
     public Flight(int flightId, int flightNumber, AirportCode departureAirportIATACode, AirportCode arrivalAirportIATACode, Instant departureDate) {
         this.flightId = flightId;
