@@ -27,7 +27,7 @@ public class Flight {
         this.baggage.addAll(baggage);
     }
     public void loadWithCargo(List<Load> cargo) {
-        this.baggage.addAll(cargo);
+        this.cargo.addAll(cargo);
     }
 
     public Weight getTotalCargoWeight() {

@@ -1,138 +1,156 @@
 package com.s4a;
 
-import com.s4a.exceptions.FlightIdAlreadyExistsException;
 import com.s4a.model.AirportCode;
 import com.s4a.model.Flight;
-import com.s4a.model.Load;
 import com.s4a.model.Weight;
-import com.s4a.utils.TestDataUtils;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import com.s4a.utils.TestDataUtil;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoadDistributionTest {
 
-    public static final double[] WEIGHT = new double[]{150.1, 200.3, 34.5, 4721.0};
-    public static final int[] QUANTITY = new int[]{4, 5, 1000, 2};
-
-    FlightsSchedule schedule;
-    LoadDistribution distribution;
-
-    @BeforeEach
-    public void init() {
-        schedule = new FlightsSchedule();
-        distribution = new LoadDistribution(schedule);
-    }
-
-    private Flight prepareTestFlight() {
-        Flight flight = TestDataUtils.generateFlight();
-        try {
-            flight.loadWithBaggage(Arrays.asList(
-                    new Load(0, WEIGHT[0], "kg", QUANTITY[0]),
-                    new Load(1, WEIGHT[1], "kg", QUANTITY[1])));
-            flight.loadWithCargo(Arrays.asList(
-                    new Load(0, WEIGHT[2], "kg", QUANTITY[2]),
-                    new Load(1, WEIGHT[3], "kg", QUANTITY[3])));
-
-            schedule.addFlight(flight);
-        } catch (FlightIdAlreadyExistsException e) {
-            System.out.println(e.toString());
-        }
-        return flight;
-    }
-
     @Test
+    @SneakyThrows
     void shouldCountCargoWeightForRequestedFlight() {
         //given
-        Flight flight = prepareTestFlight();
+        TestDataUtil testData = new TestDataUtil();
+        Flight flight = TestDataUtil.generateFlight();
+        flight.loadWithCargo(TestDataUtil.generateLoads(0,1));
+        flight.loadWithBaggage(TestDataUtil.generateLoads(2,3));
+        testData.flightsSchedule.addFlight(flight);
 
         //when
-        Weight cargoWeight = distribution.howMuchCargoWeights(flight.number);
+        Weight cargoWeight = testData.loadDistribution.howMuchCargoWeights(flight.number);
 
         //then
-        assertThat(cargoWeight.kg()).isEqualTo(WEIGHT[0] * QUANTITY[0] + WEIGHT[1] * QUANTITY[1]);
+        assertThat(cargoWeight.kg()).isEqualTo(TestDataUtil.getWeightOfLoads(0,1));
     }
 
     @Test
+    @SneakyThrows
     void shouldCountBaggageWeightForRequestedFlight() {
         //given
-        Flight flight = prepareTestFlight();
+        TestDataUtil testData = new TestDataUtil();
+        Flight flight = TestDataUtil.generateFlight();
+        flight.loadWithCargo(TestDataUtil.generateLoads(0,1));
+        flight.loadWithBaggage(TestDataUtil.generateLoads(2,3));
+        testData.flightsSchedule.addFlight(flight);
 
         //when
-        Weight baggageWeight = distribution.howMuchBaggageWeights(flight.number);
+        Weight baggageWeight = testData.loadDistribution.howMuchBaggageWeights(flight.number);
 
         //then
-        assertThat(baggageWeight.kg()).isEqualTo(WEIGHT[0] * QUANTITY[0] + WEIGHT[1] * QUANTITY[1]);
+        assertThat(baggageWeight.kg()).isEqualTo(TestDataUtil.getWeightOfLoads(2,3));
     }
 
     @Test
+    @SneakyThrows
     void shouldCountTotalLoadWeightForRequestedFlight() {
         //given
-        Flight flight = prepareTestFlight();
+        TestDataUtil testData = new TestDataUtil();
+        Flight flight = TestDataUtil.generateFlight();
+        flight.loadWithCargo(TestDataUtil.generateLoads(0,1));
+        flight.loadWithBaggage(TestDataUtil.generateLoads(2,3));
+        testData.flightsSchedule.addFlight(flight);
+        testData.flightsSchedule.addFlight(TestDataUtil.generateFlight());
 
         //when
-        Weight loadWeight = distribution.howMuchTotalLoadWeights(flight.number);
+        Weight loadWeight = testData.loadDistribution.howMuchTotalLoadWeights(flight.number);
 
         //then
-        assertThat(loadWeight.kg()).isEqualTo(WEIGHT[0] * QUANTITY[0] + WEIGHT[1] * QUANTITY[1]
-                + WEIGHT[2] * QUANTITY[2] + WEIGHT[3] * QUANTITY[3]);
+        assertThat(loadWeight.kg()).isEqualTo(TestDataUtil.getWeightOfLoads(0,1,2,3));
     }
 
     @Test
+    @SneakyThrows
     void shouldCountFlightsDepartedFromRequestedAirport() {
         //given
-        AirportCode airportCode = AirportCode.GDN;
-        Date date = new Date();
+        TestDataUtil testData = new TestDataUtil();
+        AirportCode departureAirportCode = AirportCode.GDN;
+        Instant date = Instant.now();
+        testData.flightsSchedule.addFlight(TestDataUtil.generateFlightFromTo(departureAirportCode, AirportCode.random(), date));
 
         //when
-        distribution.howManyFlightsDepartedFrom(airportCode, date);
+        testData.loadDistribution.howManyFlightsDepartedFrom(departureAirportCode, date);
 
         //then
-
+        assertThat(false).isTrue();
     }
 
     @Test
+    @SneakyThrows
     void shouldCountFlightsArrivedToRequestedAirport() {
         //given
+        TestDataUtil testData = new TestDataUtil();
         AirportCode airportCode = AirportCode.GDN;
-        Date date = new Date();
+        Instant time = Instant.parse("2021-02-28T06:00:00Z");
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(3, ChronoUnit.HOURS)));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(7, ChronoUnit.HOURS)));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(11, ChronoUnit.HOURS)));
+
 
         //when
-        distribution.howManyFlightsArrivedTo(airportCode, date);
+        testData.loadDistribution.howManyFlightsArrivedTo(airportCode, time);
 
         //then
-
+        assertThat(false).isTrue();
     }
 
     @Test
+    @SneakyThrows
     void shouldCountPiecesOfBaggageDepartedFromRequestedAirport() {
         //given
+        TestDataUtil testData = new TestDataUtil();
         AirportCode airportCode = AirportCode.GDN;
-        Date date = new Date();
+        Instant time = Instant.parse("2021-02-28T06:00:00Z");
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(3, ChronoUnit.HOURS)));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(7, ChronoUnit.HOURS)));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(11, ChronoUnit.HOURS)));
 
         //when
-        distribution.howManyPiecesOfBaggageDepartedFrom(airportCode, date);
+        testData.loadDistribution.howManyPiecesOfBaggageDepartedFrom(airportCode, time);
 
         //then
-
+        assertThat(false).isTrue();
     }
 
     @Test
+    @SneakyThrows
     void shouldCountPiecesOfBaggageArrivedToRequestedAirport() {
         //given
+        TestDataUtil testData = new TestDataUtil();
         AirportCode airportCode = AirportCode.GDN;
-        Date date = new Date();
+        Instant time = Instant.parse("2021-02-28T06:00:00Z");
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(3, ChronoUnit.HOURS)));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(7, ChronoUnit.HOURS)));
+        testData.flightsSchedule.addFlight(
+                TestDataUtil.generateFlightFromTo(airportCode, AirportCode.random(), time.plus(11, ChronoUnit.HOURS)));
 
         //when
-        distribution.howManyPiecesOfBaggageArrivedTo(airportCode, date);
+        testData.loadDistribution.howManyPiecesOfBaggageArrivedTo(airportCode, time);
 
         //then
-
+        assertThat(false).isTrue();
     }
 }
