@@ -2,7 +2,7 @@ package com.s4a.exceptions;
 
 public class FlightIdAlreadyExistsException extends Throwable {
 
-    private int index;
+    private final int index;
 
     public FlightIdAlreadyExistsException(int index) {
         this.index = index;

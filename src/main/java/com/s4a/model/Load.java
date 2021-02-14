@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Load {
-    private int id;
-    private Weight weight;
-    private int quantity;
+    private final int id;
+    private final Weight weight;
+    private final int quantity;
     
     public Load(int id, double weight, String weightUnit, int quantity) {
         this.id = id;
@@ -31,5 +31,9 @@ public class Load {
 
     public double totalKgWeight() {
         return weight.kg() * quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }

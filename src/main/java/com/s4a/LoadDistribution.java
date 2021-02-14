@@ -55,7 +55,12 @@ public class LoadDistribution {
     }
 
     public int howManyFlightsDepartedFrom(AirportCode departureAirportCode, Instant date) {
-        return 0;
+        int counter = 0;
+        for (Flight flight : schedule.findFlightsOfDate(date)) {
+            if (flight.isDepartsFrom(departureAirportCode))
+                counter++;
+        }
+        return counter;
     }
 
     public int howManyFlightsArrivedTo(AirportCode arrivalAirportCode, Date date) {
@@ -63,7 +68,12 @@ public class LoadDistribution {
     }
 
     public int howManyFlightsArrivedTo(AirportCode arrivalAirportCode, Instant date) {
-        return 0;
+        int counter = 0;
+        for (Flight flight : schedule.findFlightsOfDate(date)) {
+            if (flight.isArrivesTo(arrivalAirportCode))
+                counter++;
+        }
+        return counter;
     }
 
     public int howManyPiecesOfBaggageDepartedFrom(AirportCode departureAirportCode, Date date) {
@@ -71,7 +81,12 @@ public class LoadDistribution {
     }
 
     public int howManyPiecesOfBaggageDepartedFrom(AirportCode departureAirportCode, Instant date) {
-        return 0;
+        int counter = 0;
+        for (Flight flight : schedule.findFlightsOfDate(date)) {
+            if (flight.isDepartsFrom(departureAirportCode))
+                counter += flight.getTotalBaggagePieces();
+        }
+        return counter;
     }
 
     public int howManyPiecesOfBaggageArrivedTo(AirportCode arrivalAirportCode, Date date) {
@@ -79,7 +94,12 @@ public class LoadDistribution {
     }
 
     public int howManyPiecesOfBaggageArrivedTo(AirportCode arrivalAirportCode, Instant date) {
-        return 0;
+        int counter = 0;
+        for (Flight flight : schedule.findFlightsOfDate(date)) {
+            if (flight.isArrivesTo(arrivalAirportCode))
+                counter += flight.getTotalBaggagePieces();
+        }
+        return counter;
     }
 
 

@@ -8,12 +8,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FlightsSchedule {
-    private Map<Integer, Flight> flights;
+    private final Map<Integer, Flight> flights;
 
     public FlightsSchedule() {
         flights = new HashMap<>();
@@ -58,5 +63,12 @@ public class FlightsSchedule {
         return flights.values().stream()
                 .filter(flight -> flight.number == flightNumber)
                 .findFirst();
+    }
+
+    public List<Flight> findFlightsOfDate(Instant date) {
+        return flights.values().stream()
+                .filter(flight ->
+                        DateUtils.isSameDay(date, flight.getDepartureDate()))
+                .collect(Collectors.toList());
     }
 }

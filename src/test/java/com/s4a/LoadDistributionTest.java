@@ -145,7 +145,7 @@ public class LoadDistributionTest {
         flight1ToKrk.loadWithBaggage(TestDataUtil.generateLoads(0,1,2));
         flight2ToKrk.loadWithBaggage(TestDataUtil.generateLoads(2,3));
         randomFlight.loadWithBaggage(TestDataUtil.generateLoads(0));
-        testData.flightsSchedule.addFlight(flight2ToKrk);
+        testData.flightsSchedule.addFlight(flight1ToKrk);
         testData.flightsSchedule.addFlight(flight2ToKrk);
         testData.flightsSchedule.addFlight(randomFlight);
 
