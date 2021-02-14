@@ -46,8 +46,8 @@ public class TestDataUtil {
     public static double getWeightOfLoads(int... variants) {
         double sum = 0;
         for (int i = 0; i < variants.length; i++) {
-            if (i >= WEIGHT.length)
-                sum += WEIGHT[i] * QUANTITY[i];
+            if (i < WEIGHT.length)
+                sum += WEIGHT[variants[i]] * QUANTITY[variants[i]];
         }
         return sum;
     }
