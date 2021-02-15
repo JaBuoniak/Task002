@@ -1,6 +1,6 @@
 package com.s4a;
 
-import com.s4a.exceptions.FlightIdAlreadyExistsException;
+import com.s4a.exceptions.FlightAlreadyExistsException;
 import com.s4a.model.AirportCode;
 import com.s4a.model.Flight;
 import com.s4a.utils.DateUtils;
@@ -22,7 +22,7 @@ public class FlightsSchedule {
         flights = new HashMap<>();
     }
 
-    void importFromJson(String jsonContent) {
+    int importFromJson(String jsonContent) {
         JSONArray jsonArray = new JSONArray(jsonContent);
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -39,15 +39,16 @@ public class FlightsSchedule {
             } catch (ParseException e) {
                 System.out.println("Parse failure during data import from JSON format.\n" +
                         "Could not recognize date format of [" + jsonObject.getString("departureDate") + "] for flight ID: " + flightId);
-            } catch (FlightIdAlreadyExistsException e) {
+            } catch (FlightAlreadyExistsException e) {
                 System.out.println(e.toString());
             }
         }
+        return flights.size();
     }
 
-    public void addFlight(Flight flight) throws FlightIdAlreadyExistsException {
+    public void addFlight(Flight flight) throws FlightAlreadyExistsException {
         if (flights.containsKey(flight.id)) {
-            throw new FlightIdAlreadyExistsException(flight.id);
+            throw new FlightAlreadyExistsException(flight.id);
             //Lepsza oczywiście byłaby fabryka, która sama nadaje indeksy, ale skoro są podawane w danych wejściowych, to lepiej to zabezpieczyć.
         }
         flights.put(flight.id, flight);

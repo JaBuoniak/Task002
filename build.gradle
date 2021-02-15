@@ -26,4 +26,4 @@ test {
     useJUnitPlatform()
 }
 
-mainClassName = "com.s4a.view.Gui"
+mainClassName = "com.s4a.view.GuiApplication"

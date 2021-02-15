@@ -1,6 +1,6 @@
 package com.s4a;
 
-import com.s4a.exceptions.FlightIdAlreadyExistsException;
+import com.s4a.exceptions.FlightAlreadyExistsException;
 import com.s4a.model.AirportCode;
 import com.s4a.model.Flight;
 import com.s4a.model.Weight;
@@ -15,7 +15,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LoadDistributionTest {
 
     @Test
-    void shouldCountCargoWeightForRequestedFlight() throws FlightIdAlreadyExistsException  {
+    void shouldThrowExceptionWhenTriesAddLoadToNonexistentFlight() {
+        //given
+        TestDataUtil testData = new TestDataUtil();
+
+    }
+
+    @Test
+    void shouldCountCargoWeightForRequestedFlight() throws FlightAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
         Instant time = Instant.parse("2021-01-31T00:00:00Z");
@@ -32,7 +39,7 @@ public class LoadDistributionTest {
     }
 
     @Test
-    void shouldCountBaggageWeightForRequestedFlight() throws FlightIdAlreadyExistsException {
+    void shouldCountBaggageWeightForRequestedFlight() throws FlightAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
         Instant time = Instant.parse("2021-01-31T00:00:00Z");
@@ -49,7 +56,7 @@ public class LoadDistributionTest {
     }
 
     @Test
-    void shouldCountTotalLoadWeightForRequestedFlight() throws FlightIdAlreadyExistsException {
+    void shouldCountTotalLoadWeightForRequestedFlight() throws FlightAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
         Instant time = Instant.parse("2021-01-31T00:00:00Z");
@@ -67,7 +74,7 @@ public class LoadDistributionTest {
     }
 
     @Test
-    void shouldCountFlightsDepartedFromRequestedAirport() throws FlightIdAlreadyExistsException {
+    void shouldCountFlightsDepartedFromRequestedAirport() throws FlightAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
         AirportCode departureAirport = AirportCode.GDN;
@@ -89,7 +96,7 @@ public class LoadDistributionTest {
     }
 
     @Test
-    void shouldCountFlightsArrivedToRequestedAirport() throws FlightIdAlreadyExistsException {
+    void shouldCountFlightsArrivedToRequestedAirport() throws FlightAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
         AirportCode arrivalAirport = AirportCode.GDN;
@@ -112,7 +119,7 @@ public class LoadDistributionTest {
     }
 
     @Test
-    void shouldCountPiecesOfBaggageDepartedFromRequestedAirport() throws FlightIdAlreadyExistsException {
+    void shouldCountPiecesOfBaggageDepartedFromRequestedAirport() throws FlightAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
         AirportCode departureAirport = AirportCode.GDN;
@@ -137,7 +144,7 @@ public class LoadDistributionTest {
     }
 
     @Test
-    void shouldCountPiecesOfBaggageArrivedToRequestedAirport() throws FlightIdAlreadyExistsException {
+    void shouldCountPiecesOfBaggageArrivedToRequestedAirport() throws FlightAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
         AirportCode arrivalAirport = AirportCode.KRK;

@@ -1,5 +1,6 @@
 package com.s4a;
 
+import com.s4a.exceptions.NoSuchFlightException;
 import com.s4a.model.AirportCode;
 import com.s4a.model.Flight;
 import com.s4a.model.Load;
@@ -106,20 +107,23 @@ public class LoadDistribution {
     }
 
 
-    public void importLoadsFromJson(String jsonContent) {
-        JSONArray jsonArray = new JSONArray();
+    public int importLoadsFromJson(String jsonContent) throws NoSuchFlightException {
+        JSONArray jsonArray = new JSONArray(jsonContent);
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            schedule.findFlightById(jsonObject.getInt("flightId"))
-                    .ifPresent(flight -> {
-                        flight.loadWithBaggage(Load.parse(jsonObject.getJSONArray("baggage")));
-                        flight.loadWithCargo(Load.parse(jsonObject.getJSONArray("cargo")));
-                    });
+            int flightId = jsonObject.getInt("flightId");
+            Optional<Flight> optionalFlight = schedule.findFlightById(flightId);
+            if (optionalFlight.isPresent()) {
+                optionalFlight.get().loadWithBaggage(Load.parse(jsonObject.getJSONArray("baggage")));
+                optionalFlight.get().loadWithCargo(Load.parse(jsonObject.getJSONArray("cargo")));
+            } else
+                throw new NoSuchFlightException(flightId);
         }
+        return jsonArray.length();
     }
     
-    public void importFlightsFromJson(String jsonContent) {
-        schedule.importFromJson(jsonContent);
+    public int importFlightsFromJson(String jsonContent) {
+        return schedule.importFromJson(jsonContent);
     }
 }
