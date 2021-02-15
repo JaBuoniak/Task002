@@ -18,13 +18,14 @@ public class LoadDistributionTest {
     void shouldCountCargoWeightForRequestedFlight() throws FlightIdAlreadyExistsException  {
         //given
         TestDataUtil testData = new TestDataUtil();
-        Flight flight = TestDataUtil.generateFlight();
+        Instant time = Instant.parse("2021-01-31T00:00:00Z");
+        Flight flight = TestDataUtil.generateFlightOnTime(time);
         flight.loadWithCargo(TestDataUtil.generateLoads(0,1));
         flight.loadWithBaggage(TestDataUtil.generateLoads(2,3));
         testData.flightsSchedule.addFlight(flight);
 
         //when
-        Weight cargoWeight = testData.loadDistribution.howMuchCargoWeights(flight.number);
+        Weight cargoWeight = testData.loadDistribution.howMuchCargoWeights(flight.number, time);
 
         //then
         assertThat(cargoWeight.kg()).isEqualTo(TestDataUtil.getWeightOfLoads(0,1));
@@ -34,13 +35,14 @@ public class LoadDistributionTest {
     void shouldCountBaggageWeightForRequestedFlight() throws FlightIdAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
-        Flight flight = TestDataUtil.generateFlight();
+        Instant time = Instant.parse("2021-01-31T00:00:00Z");
+        Flight flight = TestDataUtil.generateFlightOnTime(time);
         flight.loadWithCargo(TestDataUtil.generateLoads(0,1));
         flight.loadWithBaggage(TestDataUtil.generateLoads(2,3));
         testData.flightsSchedule.addFlight(flight);
 
         //when
-        Weight baggageWeight = testData.loadDistribution.howMuchBaggageWeights(flight.number);
+        Weight baggageWeight = testData.loadDistribution.howMuchBaggageWeights(flight.number, time);
 
         //then
         assertThat(baggageWeight.kg()).isEqualTo(TestDataUtil.getWeightOfLoads(2,3));
@@ -50,14 +52,15 @@ public class LoadDistributionTest {
     void shouldCountTotalLoadWeightForRequestedFlight() throws FlightIdAlreadyExistsException {
         //given
         TestDataUtil testData = new TestDataUtil();
-        Flight flight = TestDataUtil.generateFlight();
+        Instant time = Instant.parse("2021-01-31T00:00:00Z");
+        Flight flight = TestDataUtil.generateFlightOnTime(time);
         flight.loadWithCargo(TestDataUtil.generateLoads(0,1));
         flight.loadWithBaggage(TestDataUtil.generateLoads(2,3));
         testData.flightsSchedule.addFlight(flight);
         testData.flightsSchedule.addFlight(TestDataUtil.generateFlight());
 
         //when
-        Weight loadWeight = testData.loadDistribution.howMuchTotalLoadWeights(flight.number);
+        Weight loadWeight = testData.loadDistribution.howMuchTotalLoadWeights(flight.number, time);
 
         //then
         assertThat(loadWeight.kg()).isEqualTo(TestDataUtil.getWeightOfLoads(0,1,2,3));

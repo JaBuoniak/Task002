@@ -25,24 +25,27 @@ public class LoadDistribution {
     }
 
 
-    public Weight howMuchCargoWeights(int flightNumber) {
-        Optional<Flight> optionalFlight = schedule.findFlightByFlightNumber(flightNumber);
+    public Weight howMuchCargoWeights(int flightNumber, Instant time) {
+        Optional<Flight> optionalFlight = schedule.findFlightsOfDate(time).stream()
+                .filter(flight -> flight.number == flightNumber).findFirst();
         if (optionalFlight.isPresent()) {
             return optionalFlight.get().getTotalCargoWeight();
         } else
             return new Weight(0.0, kg);
     }
 
-    public Weight howMuchBaggageWeights(int flightNumber) {
-        Optional<Flight> optionalFlight = schedule.findFlightByFlightNumber(flightNumber);
+    public Weight howMuchBaggageWeights(int flightNumber, Instant time) {
+        Optional<Flight> optionalFlight = schedule.findFlightsOfDate(time).stream()
+                .filter(flight -> flight.number == flightNumber).findFirst();
         if (optionalFlight.isPresent()) {
             return optionalFlight.get().getTotalBaggageWeight();
         } else
             return new Weight(0.0, kg);
     }
 
-    public Weight howMuchTotalLoadWeights(int flightNumber) {
-        Optional<Flight> optionalFlight = schedule.findFlightByFlightNumber(flightNumber);
+    public Weight howMuchTotalLoadWeights(int flightNumber, Instant time) {
+        Optional<Flight> optionalFlight = schedule.findFlightsOfDate(time).stream()
+                .filter(flight -> flight.number == flightNumber).findFirst();
         if (optionalFlight.isPresent()) {
             return optionalFlight.get().getTotalBaggageWeight()
                     .add(optionalFlight.get().getTotalCargoWeight());
@@ -57,7 +60,7 @@ public class LoadDistribution {
     public int howManyFlightsDepartedFrom(AirportCode departureAirportCode, Instant date) {
         int counter = 0;
         for (Flight flight : schedule.findFlightsOfDate(date)) {
-            if (flight.isDepartsFrom(departureAirportCode))
+            if (flight.departsFrom(departureAirportCode))
                 counter++;
         }
         return counter;
@@ -70,7 +73,7 @@ public class LoadDistribution {
     public int howManyFlightsArrivedTo(AirportCode arrivalAirportCode, Instant date) {
         int counter = 0;
         for (Flight flight : schedule.findFlightsOfDate(date)) {
-            if (flight.isArrivesTo(arrivalAirportCode))
+            if (flight.arrivesTo(arrivalAirportCode))
                 counter++;
         }
         return counter;
@@ -83,7 +86,7 @@ public class LoadDistribution {
     public int howManyPiecesOfBaggageDepartedFrom(AirportCode departureAirportCode, Instant date) {
         int counter = 0;
         for (Flight flight : schedule.findFlightsOfDate(date)) {
-            if (flight.isDepartsFrom(departureAirportCode))
+            if (flight.departsFrom(departureAirportCode))
                 counter += flight.getTotalBaggagePieces();
         }
         return counter;
@@ -96,14 +99,14 @@ public class LoadDistribution {
     public int howManyPiecesOfBaggageArrivedTo(AirportCode arrivalAirportCode, Instant date) {
         int counter = 0;
         for (Flight flight : schedule.findFlightsOfDate(date)) {
-            if (flight.isArrivesTo(arrivalAirportCode))
+            if (flight.arrivesTo(arrivalAirportCode))
                 counter += flight.getTotalBaggagePieces();
         }
         return counter;
     }
 
 
-    void importFromJson(String jsonContent) {
+    public void importLoadsFromJson(String jsonContent) {
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -114,5 +117,9 @@ public class LoadDistribution {
                         flight.loadWithCargo(Load.parse(jsonObject.getJSONArray("cargo")));
                     });
         }
+    }
+    
+    public void importFlightsFromJson(String jsonContent) {
+        schedule.importFromJson(jsonContent);
     }
 }

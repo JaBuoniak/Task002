@@ -9,8 +9,6 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,12 +55,6 @@ public class FlightsSchedule {
 
     public Optional<Flight> findFlightById(int flightId) {
         return Optional.ofNullable(flights.get(flightId));
-    }
-
-    public Optional<Flight> findFlightByFlightNumber(int flightNumber) {
-        return flights.values().stream()
-                .filter(flight -> flight.number == flightNumber)
-                .findFirst();
     }
 
     public List<Flight> findFlightsOfDate(Instant date) {

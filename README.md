@@ -16,7 +16,7 @@ For generating test data use:
 https://www.json-generator.com/
 
 ### Flight Entity
-```json
+```json5
 [
   '{{repeat(5)}}',
   {
@@ -29,7 +29,7 @@ https://www.json-generator.com/
 ]
 ```
 ### Cargo Entity
-```json
+```json5
 [
   '{{repeat(5)}}',
   {

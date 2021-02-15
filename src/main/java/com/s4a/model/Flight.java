@@ -1,7 +1,5 @@
 package com.s4a.model;
 
-import lombok.Getter;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +38,11 @@ public class Flight {
         return new Weight(baggage.stream().mapToDouble(Load::totalKgWeight).sum(), WeightUnit.kg);
     }
 
-    public boolean isDepartsFrom(AirportCode departureAirportCode) {
+    public boolean departsFrom(AirportCode departureAirportCode) {
         return departureAirportIATACode.equals(departureAirportCode);
     }
 
-    public boolean isArrivesTo(AirportCode arrivalAirportCode) {
+    public boolean arrivesTo(AirportCode arrivalAirportCode) {
         return arrivalAirportIATACode.equals(arrivalAirportCode);
     }
 

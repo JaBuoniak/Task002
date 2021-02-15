@@ -1,6 +1,7 @@
 package com.s4a.model;
 
 import static com.s4a.model.WeightUnit.kg;
+import static com.s4a.model.WeightUnit.lb;
 
 public class Weight {
     final private double value;
@@ -20,10 +21,15 @@ public class Weight {
     }
 
     public double lb() {
-        return value * (unit.multiplier / WeightUnit.lb.multiplier);
+        return value * (unit.multiplier / lb.multiplier);
     }
 
     public Weight add(Weight another) {
         return new Weight(this.kg() + another.kg(), kg);
+    }
+    
+    @Override
+    public String toString() {
+        return kg() + "kg\t| " + lb() + "lb";
     }
 }

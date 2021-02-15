@@ -5,7 +5,6 @@ import com.s4a.LoadDistribution;
 import com.s4a.model.AirportCode;
 import com.s4a.model.Flight;
 import com.s4a.model.Load;
-import lombok.Getter;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -30,7 +29,11 @@ public class TestDataUtil {
     }
 
     public static Flight generateFlight() {
-        return generateFlightFromTo(AirportCode.random(), AirportCode.random(), Instant.now());
+        return generateFlightOnTime(Instant.now());
+    }
+    
+    public static Flight generateFlightOnTime(Instant time) {
+        return generateFlightFromTo(AirportCode.random(), AirportCode.random(), time);
     }
 
     public static List<Load> generateLoads(int... variants) {
