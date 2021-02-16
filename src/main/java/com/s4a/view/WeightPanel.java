@@ -18,7 +18,7 @@ public class WeightPanel extends JPanel {
     private LoadDistribution distribution;
     private final JDatePickerImpl datePicker;
     private final JFormattedTextField flightNoField;
-    private final JLabel resultLabel;
+    private final JLabel resultValues;
     private final JButton calculateWeightButton;
 
     public WeightPanel(LoadDistribution distribution) throws IOException {
@@ -27,13 +27,9 @@ public class WeightPanel extends JPanel {
 
         datePicker = ViewUtils.createDatePicker();
         flightNoField = ViewUtils.createIntegerField(0,9999);
-        resultLabel = new JLabel("<html>" +
-                BUNDLE.getString("Result.Weight.Header") + "<br>"+
-                BUNDLE.getString("Result.Weight.Baggage") + "<br>"+
-                BUNDLE.getString("Result.Weight.Cargo") + "<br>"+
-                BUNDLE.getString("Result.Weight.TotalLoad") + "</html>");
         calculateWeightButton = new JButton(BUNDLE.getString("Gui.Weight.calculateButton"));
-        calculateWeightButton.addActionListener(e -> calculateWeigh(DateUtils.getInstant(datePicker), (Integer) flightNoField.getValue(), resultLabel));
+        calculateWeightButton.addActionListener(e -> calculateWeigh());
+        resultValues = new JLabel();
 
         arrange();
     }
@@ -45,22 +41,32 @@ public class WeightPanel extends JPanel {
         add(new JLabel(BUNDLE.getString("Gui.Weight.giveFlightNo"), SwingConstants.RIGHT), ViewUtils.createGridPlacement(1,0));
         add(flightNoField,  ViewUtils.createGridPlacement(1,1));
 
-        add(resultLabel, ViewUtils.createGridPlacement(2,0));
+        JPanel resultPanel = new JPanel(new BorderLayout());
+        resultPanel.add(new JLabel("<html>" +
+                BUNDLE.getString("Result.Weight.Header") + "&nbsp;<br>" +
+                BUNDLE.getString("Result.Weight.Baggage") + "<br>" +
+                BUNDLE.getString("Result.Weight.Cargo") + "<br>" +
+                BUNDLE.getString("Result.Weight.TotalLoad") + "</html>"),
+                BorderLayout.WEST);
+        resultPanel.add(resultValues, BorderLayout.CENTER);
+        add(resultPanel, ViewUtils.createGridPlacement(2,0));
 
         add(calculateWeightButton, ViewUtils.createGridPlacement(2,1));
     }
 
-    private void calculateWeigh(Instant date, Integer flightNo, JLabel resultLabel) {
+    private void calculateWeigh() {
         try {
+            Instant date = DateUtils.getInstant(datePicker);
+            int flightNo = (Integer) flightNoField.getValue();
             Weight baggageWeight = distribution.howMuchBaggageWeights(flightNo, date);
             Weight cargoWeight = distribution.howMuchCargoWeights(flightNo, date);
             Weight totalLoadWeight = distribution.howMuchTotalLoadWeights(flightNo, date);
-            resultLabel.setText("<html>" +
-                    BUNDLE.getString("Result.Weight.Header") + flightNo + ":<br>"+
-                    BUNDLE.getString("Result.Weight.Baggage") + baggageWeight + "<br>"+
-                    BUNDLE.getString("Result.Weight.Cargo") + cargoWeight + "<br>"+
-                    BUNDLE.getString("Result.Weight.TotalLoad") + totalLoadWeight + "</html>");
-            resultLabel.validate();
+            resultValues.setText("<html>" +
+                    flightNo + "<br>"+
+                    baggageWeight + "<br>"+
+                    cargoWeight + "<br>"+
+                    totalLoadWeight + "</html>");
+//            resultLabel.validate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

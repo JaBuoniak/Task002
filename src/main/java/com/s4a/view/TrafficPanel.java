@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 public class TrafficPanel extends JPanel {
     private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
     private final JDatePickerImpl datePicker;
-    private final JLabel resultLabel;
+    private final JLabel resultValues;
     private LoadDistribution distribution;
     private final JComboBox<AirportCode> airportCodeComboBox;
     private final JButton calculateTrafficButton;
@@ -26,12 +26,8 @@ public class TrafficPanel extends JPanel {
 
         datePicker = ViewUtils.createDatePicker();
         airportCodeComboBox = new JComboBox<>(AirportCode.values());
-        resultLabel = new JLabel("<html>" +
-                BUNDLE.getString("Result.Traffic.Header1") + BUNDLE.getString("Result.Traffic.Header2") + "<br>"+
-                BUNDLE.getString("Result.Traffic.DepartedFlights") + "<br>"+
-                BUNDLE.getString("Result.Traffic.ArrivedFlights") + "<br>"+
-                BUNDLE.getString("Result.Traffic.DepartedBaggage") + "<br>"+
-                BUNDLE.getString("Result.Traffic.ArrivedBaggage") + "</html>");
+
+        resultValues = new JLabel();
         calculateTrafficButton = new JButton(BUNDLE.getString("Gui.Traffic.calculateButton"));
         calculateTrafficButton.addActionListener(e -> calculateTraffic());
         arrange();
@@ -44,7 +40,17 @@ public class TrafficPanel extends JPanel {
         add(new JLabel(BUNDLE.getString("Gui.Traffic.giveAirportCode"), SwingConstants.RIGHT), ViewUtils.createGridPlacement(1,0));
         add(airportCodeComboBox,  ViewUtils.createGridPlacement(1,1));
 
-        add(resultLabel, ViewUtils.createGridPlacement(2,0));
+        JPanel resultPanel = new JPanel(new BorderLayout());
+        resultPanel.add(new JLabel("<html>" +
+                BUNDLE.getString("Result.Traffic.Header") + "&nbsp;<br>"+
+                BUNDLE.getString("Result.Traffic.DepartedFlights") + "&nbsp;<br>"+
+                BUNDLE.getString("Result.Traffic.ArrivedFlights") + "&nbsp;<br>"+
+                BUNDLE.getString("Result.Traffic.DepartedBaggage") + "&nbsp;<br>"+
+                BUNDLE.getString("Result.Traffic.ArrivedBaggage") + "&nbsp;</html>"),
+                BorderLayout.WEST);
+        resultPanel.add(resultValues, BorderLayout.CENTER);
+        add(resultPanel, ViewUtils.createGridPlacement(2,0));
+
         add(calculateTrafficButton, ViewUtils.createGridPlacement(2,1));
     }
 
@@ -56,13 +62,11 @@ public class TrafficPanel extends JPanel {
         int piecesOfBaggageDepartedFrom = distribution.howManyPiecesOfBaggageDepartedFrom(selectedAirport, date);
         int piecesOfBaggageArrivedTo = distribution.howManyPiecesOfBaggageArrivedTo(selectedAirport, date);
 
-        resultLabel.setText("<html>" +
-                BUNDLE.getString("Result.Traffic.Header1") + selectedAirport +
-                BUNDLE.getString("Result.Traffic.Header2") + "<br>"+
-                BUNDLE.getString("Result.Traffic.DepartedFlights") + flightsDepartedFrom + "<br>"+
-                BUNDLE.getString("Result.Traffic.ArrivedFlights") + flightsArrivedTo + "<br>"+
-                BUNDLE.getString("Result.Traffic.DepartedBaggage") + piecesOfBaggageDepartedFrom + "<br>"+
-                BUNDLE.getString("Result.Traffic.ArrivedBaggage") + piecesOfBaggageArrivedTo + "</html>");
-        validate();
+        resultValues.setText("<html><br>" +
+                flightsDepartedFrom + "<br>" +
+                flightsArrivedTo + "<br>" +
+                piecesOfBaggageDepartedFrom + "<br>" +
+                piecesOfBaggageArrivedTo + "</html>");
+//        validate();
     }
 }

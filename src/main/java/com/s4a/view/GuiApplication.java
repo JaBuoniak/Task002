@@ -25,8 +25,7 @@ public class GuiApplication {
 
     frame = new JFrame(BUNDLE.getString("Gui.Window.Title"));
     frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    frame.setMinimumSize(new Dimension(600,400));
-    frame.setSize(new Dimension(600,400));
+    frame.setMinimumSize(new Dimension(800,500));
     frame.add(mainPanel);
   }
 
