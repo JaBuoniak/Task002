@@ -1,5 +1,10 @@
 package com.s4a.model;
 
+import com.s4a.exceptions.JsonParseException;
+import com.s4a.utils.DateUtils;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +26,25 @@ public class Flight {
         this.departureDate = departureDate;
         this.baggage = new ArrayList<>();
         this.cargo = new ArrayList<>();
+    }
+
+    public static Flight parse(JSONObject jsonObject) throws JsonParseException {
+        String departureDate = jsonObject.getString("departureDate");
+        int flightId = jsonObject.getInt("flightId");
+        try {
+            return new Flight(
+                    flightId,
+                    jsonObject.getInt("flightNumber"),
+                    AirportCode.of(jsonObject.getString("departureAirportIATACode")),
+                    AirportCode.of(jsonObject.getString("arrivalAirportIATACode")),
+                    DateUtils.parseDate(departureDate));
+        } catch (ParseException e) {
+            String exceptionMessage = "Parse failure during data import from JSON format.\n" +
+                    "Could not recognize date format of [" + departureDate + "] for flight ID: " + flightId +
+                    e.getMessage();
+            System.out.println(exceptionMessage);
+            throw new JsonParseException(exceptionMessage);
+        }
     }
 
     public void loadWithBaggage(List<Load> baggage) {

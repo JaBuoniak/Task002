@@ -1,5 +1,7 @@
 package com.s4a;
 
+import com.s4a.exceptions.FlightAlreadyExistsException;
+import com.s4a.exceptions.JsonParseException;
 import com.s4a.exceptions.NoSuchFlightException;
 import com.s4a.model.AirportCode;
 import com.s4a.model.Flight;
@@ -123,7 +125,7 @@ public class LoadDistribution {
         return jsonArray.length();
     }
     
-    public int importFlightsFromJson(String jsonContent) {
+    public int importFlightsFromJson(String jsonContent) throws JsonParseException, FlightAlreadyExistsException {
         return schedule.importFromJson(jsonContent);
     }
 }

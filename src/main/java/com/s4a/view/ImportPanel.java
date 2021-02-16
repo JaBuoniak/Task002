@@ -1,6 +1,8 @@
 package com.s4a.view;
 
 import com.s4a.LoadDistribution;
+import com.s4a.exceptions.FlightAlreadyExistsException;
+import com.s4a.exceptions.JsonParseException;
 import com.s4a.exceptions.NoSuchFlightException;
 import com.s4a.utils.FileUtils;
 import com.s4a.utils.ViewUtils;
@@ -57,11 +59,16 @@ public class ImportPanel extends JPanel {
 
                 importedFlightsLabel.setText("" +
                         distribution.importFlightsFromJson(fileContent));
+                importedFlightsLabel.validate();
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
         } catch (JSONException jsonException) {
             //TODO
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (FlightAlreadyExistsException e) {
+            e.printStackTrace();
         }
     }
 
@@ -72,6 +79,7 @@ public class ImportPanel extends JPanel {
                 String fileContent = Files.readString(file.toPath(), StandardCharsets.UTF_8);
                 importedLoadsLabel.setText("" +
                         distribution.importLoadsFromJson(fileContent));
+                importedLoadsLabel.validate();
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();

@@ -30,6 +30,6 @@ public class Weight {
     
     @Override
     public String toString() {
-        return kg() + "kg\t| " + lb() + "lb";
+        return String.format("%.0f kg\t| %.0f lb", kg(), lb());
     }
 }

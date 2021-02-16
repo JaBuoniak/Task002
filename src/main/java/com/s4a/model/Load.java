@@ -1,6 +1,7 @@
 package com.s4a.model;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,12 @@ public class Load {
     public static List<Load> parse(JSONArray loadsArray) {
         ArrayList<Load> loadsList = new ArrayList<>();
         for (int i = 0; i < loadsArray.length(); i++) {
+            JSONObject jsonObject = loadsArray.getJSONObject(i);
             loadsList.add(new Load(
-                    loadsArray.getInt(i),
-                    loadsArray.getDouble(i),
-                    loadsArray.getString(i),
-                    loadsArray.getInt(i)
+                    jsonObject.getInt("id"),
+                    jsonObject.getDouble("weight"),
+                    jsonObject.getString("weightUnit"),
+                    jsonObject.getInt("pieces")
             ));
         }
         return loadsList;

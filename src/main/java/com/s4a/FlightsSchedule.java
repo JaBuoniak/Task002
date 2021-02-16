@@ -1,6 +1,7 @@
 package com.s4a;
 
 import com.s4a.exceptions.FlightAlreadyExistsException;
+import com.s4a.exceptions.JsonParseException;
 import com.s4a.model.AirportCode;
 import com.s4a.model.Flight;
 import com.s4a.utils.DateUtils;
@@ -22,26 +23,10 @@ public class FlightsSchedule {
         flights = new HashMap<>();
     }
 
-    int importFromJson(String jsonContent) {
+    int importFromJson(String jsonContent) throws JsonParseException, FlightAlreadyExistsException {
         JSONArray jsonArray = new JSONArray(jsonContent);
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            int flightId = jsonObject.getInt("flightId");
-
-            try {
-                addFlight(new Flight(
-                        flightId,
-                        jsonObject.getInt("flightNumber"),
-                        AirportCode.of(jsonObject.getString("departureAirportIATACode")),
-                        AirportCode.of(jsonObject.getString("arrivalAirportIATACode")),
-                        DateUtils.parseDate(jsonObject.getString("departureDate"))
-                ));
-            } catch (ParseException e) {
-                System.out.println("Parse failure during data import from JSON format.\n" +
-                        "Could not recognize date format of [" + jsonObject.getString("departureDate") + "] for flight ID: " + flightId);
-            } catch (FlightAlreadyExistsException e) {
-                System.out.println(e.toString());
-            }
+            addFlight(Flight.parse(jsonArray.getJSONObject(i)));
         }
         return flights.size();
     }
