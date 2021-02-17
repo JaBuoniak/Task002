@@ -32,6 +32,7 @@ public class Load {
     }
 
     public double totalKgWeight() {
+        // Przyjąłem, że ciężar jest ciężarem pojedyńczej sztuki ładunku, zatem mnożę go przez ilość.
         return weight.kg() * quantity;
     }
 
