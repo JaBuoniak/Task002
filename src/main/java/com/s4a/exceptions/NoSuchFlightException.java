@@ -6,6 +6,11 @@ public class NoSuchFlightException extends Throwable {
     public NoSuchFlightException(int id) {
         this.id = id;
     }
+    
+    @Override
+    public String getMessage() {
+        return this.toString();
+    }
 
     @Override
     public String toString() {
