@@ -22,15 +22,17 @@ public class ImportPanel extends JPanel {
     private static final String DEFAULT_LOADS_FILE = "src/main/resources/com/s4a/data/loads.json";
     private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
     private final LoadDistribution distribution;
+    private ExceptionsHandler exceptionsHandler;
     private final JButton importLoadButton;
     private final JButton importFlightsButton;
     private final JLabel importedFlightsLabel;
     private final JLabel importedLoadsLabel;
 
-    public ImportPanel(LoadDistribution distribution) {
+    public ImportPanel(LoadDistribution distribution, ExceptionsHandler exceptionsHandler) {
         super(new GridBagLayout());
         this.distribution = distribution;
-
+        this.exceptionsHandler = exceptionsHandler;
+    
         importFlightsButton = new JButton(BUNDLE.getString("Gui.Buttons.importFlights"));
         importFlightsButton.addActionListener(e -> importFlightsFromFile());
 
@@ -61,14 +63,8 @@ public class ImportPanel extends JPanel {
                         distribution.importFlightsFromJson(fileContent));
                 importedFlightsLabel.validate();
             }
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        } catch (JSONException jsonException) {
-            //TODO
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (FlightAlreadyExistsException e) {
-            e.printStackTrace();
+        } catch (IOException | JSONException | JsonParseException | FlightAlreadyExistsException e) {
+            exceptionsHandler.handle(e);
         }
     }
 
@@ -81,12 +77,8 @@ public class ImportPanel extends JPanel {
                         distribution.importLoadsFromJson(fileContent));
                 importedLoadsLabel.validate();
             }
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        } catch (JSONException jsonException) {
-            //TODO
-        } catch (NoSuchFlightException noFlight) {
-            System.out.println(noFlight.toString());
+        } catch (IOException | JSONException | NoSuchFlightException e) {
+            exceptionsHandler.handle(e);
         }
     }
 }

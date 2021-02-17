@@ -42,7 +42,6 @@ public class Flight {
             String exceptionMessage = "Parse failure during data import from JSON format.\n" +
                     "Could not recognize date format of [" + departureDate + "] for flight ID: " + flightId +
                     e.getMessage();
-            System.out.println(exceptionMessage);
             throw new JsonParseException(exceptionMessage);
         }
     }

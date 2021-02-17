@@ -14,17 +14,23 @@ import java.util.ResourceBundle;
 
 public class TrafficPanel extends JPanel {
     private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
-    private final JDatePickerImpl datePicker;
+    private JDatePickerImpl datePicker;
     private final JLabel resultValues;
     private LoadDistribution distribution;
+    private ExceptionsHandler exceptionsHandler;
     private final JComboBox<AirportCode> airportCodeComboBox;
     private final JButton calculateTrafficButton;
 
-    public TrafficPanel(LoadDistribution distribution) throws IOException {
+    public TrafficPanel(LoadDistribution distribution, ExceptionsHandler exceptionsHandler) {
         super(new GridBagLayout());
         this.distribution = distribution;
-
-        datePicker = ViewUtils.createDatePicker();
+        this.exceptionsHandler = exceptionsHandler;
+    
+        try {
+            datePicker = ViewUtils.createDatePicker();
+        } catch (IOException e) {
+            exceptionsHandler.handle(e);
+        }
         airportCodeComboBox = new JComboBox<>(AirportCode.values());
 
         resultValues = new JLabel();
@@ -67,6 +73,5 @@ public class TrafficPanel extends JPanel {
                 flightsArrivedTo + "<br>" +
                 piecesOfBaggageDepartedFrom + "<br>" +
                 piecesOfBaggageArrivedTo + "</html>");
-//        validate();
     }
 }

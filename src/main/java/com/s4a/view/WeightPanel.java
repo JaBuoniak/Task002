@@ -16,16 +16,20 @@ public class WeightPanel extends JPanel {
 
     private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
     private LoadDistribution distribution;
-    private final JDatePickerImpl datePicker;
+    private JDatePickerImpl datePicker;
     private final JFormattedTextField flightNoField;
     private final JLabel resultValues;
     private final JButton calculateWeightButton;
 
-    public WeightPanel(LoadDistribution distribution) throws IOException {
+    public WeightPanel(LoadDistribution distribution, ExceptionsHandler exceptionsHandler) {
         super(new GridBagLayout());
         this.distribution = distribution;
-
-        datePicker = ViewUtils.createDatePicker();
+    
+        try {
+            datePicker = ViewUtils.createDatePicker();
+        } catch (IOException e) {
+            exceptionsHandler.handle(e);
+        }
         flightNoField = ViewUtils.createIntegerField(0,9999);
         calculateWeightButton = new JButton(BUNDLE.getString("Gui.Weight.calculateButton"));
         calculateWeightButton.addActionListener(e -> calculateWeigh());
@@ -55,20 +59,17 @@ public class WeightPanel extends JPanel {
     }
 
     private void calculateWeigh() {
-        try {
+
             Instant date = DateUtils.getInstant(datePicker);
             int flightNo = (Integer) flightNoField.getValue();
             Weight baggageWeight = distribution.howMuchBaggageWeights(flightNo, date);
             Weight cargoWeight = distribution.howMuchCargoWeights(flightNo, date);
             Weight totalLoadWeight = distribution.howMuchTotalLoadWeights(flightNo, date);
             resultValues.setText("<html>" +
-                    flightNo + "<br>"+
-                    baggageWeight + "<br>"+
-                    cargoWeight + "<br>"+
+                    flightNo + "<br>" +
+                    baggageWeight + "<br>" +
+                    cargoWeight + "<br>" +
                     totalLoadWeight + "</html>");
-//            resultLabel.validate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+
     }
 }
