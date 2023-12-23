@@ -1,6 +1,6 @@
 package com.s4a.exceptions;
 
-public class NoSuchFlightException extends Throwable {
+public class NoSuchFlightException extends Exception {
     private final int id;
 
     public NoSuchFlightException(int id) {

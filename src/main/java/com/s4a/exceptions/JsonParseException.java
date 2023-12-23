@@ -1,6 +1,6 @@
 package com.s4a.exceptions;
 
-public class JsonParseException extends Throwable {
+public class JsonParseException extends Exception {
     private final String exceptionMessage;
 
     public JsonParseException(String exceptionMessage) {

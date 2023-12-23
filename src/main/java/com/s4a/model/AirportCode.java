@@ -15,7 +15,7 @@ public enum AirportCode {
     KRK,
     PPX;
 
-    private final static Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     public static AirportCode of(String iataCodeString) {
         return valueOf(iataCodeString.trim().toUpperCase(Locale.getDefault()));

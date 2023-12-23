@@ -16,7 +16,7 @@ public class TrafficPanel extends JPanel {
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
     private JDatePickerImpl datePicker;
     private final JLabel resultValues;
-    private final LoadDistribution distribution;
+    private final transient LoadDistribution distribution;
     private final JComboBox<AirportCode> airportCodeComboBox;
     private final JButton calculateTrafficButton;
 

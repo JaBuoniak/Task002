@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 public class FileUtils {
   
-  private final static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
+  private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
 
   public static File chooseFile(Component parentComponent, String defaultPath) {
     JFileChooser fileChooser = new JFileChooser(defaultPath);

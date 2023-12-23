@@ -12,10 +12,10 @@ import java.time.Instant;
 import static java.time.temporal.ChronoUnit.HOURS;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LoadDistributionTest {
+class LoadDistributionTest {
 
     @Test
-    @SuppressWarnings("Add at least one assertion to this test case")
+    @SuppressWarnings("squid:S2699")
     void shouldThrowExceptionWhenTriesAddLoadToNonexistentFlight() {
         //TODO
     }

@@ -4,8 +4,8 @@ import static com.s4a.model.WeightUnit.kg;
 import static com.s4a.model.WeightUnit.lb;
 
 public class Weight {
-    final private double value;
-    final private WeightUnit unit;
+    private final double value;
+    private final WeightUnit unit;
 
     public Weight(double weight, WeightUnit unit) {
         this.value = weight;

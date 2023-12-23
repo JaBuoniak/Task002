@@ -10,6 +10,7 @@ sonar {
         property("sonar.projectName", "S4A Task002")
         property("sonar.host.url", "http://localhost:9000")
         property("sonar.token", "sqp_73eb3a51f605c1ae74d6b80569802c1557a65255")
+        property("sonar.gradle.skipCompile", true)
     }
 }
 

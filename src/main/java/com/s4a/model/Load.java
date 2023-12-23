@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Load {
+    @SuppressWarnings("squid:S1068")
     private final int id;
     private final Weight weight;
     private final int quantity;
