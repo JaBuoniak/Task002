@@ -1,6 +1,16 @@
 plugins {
     id 'java'
     id 'application'
+    id "org.sonarqube" version "4.4.1.3373"
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "S4A-Task002")
+        property("sonar.projectName", "S4A Task002")
+        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.token", "sqp_73eb3a51f605c1ae74d6b80569802c1557a65255")
+    }
 }
 
 group 'com.smart4aviation'
