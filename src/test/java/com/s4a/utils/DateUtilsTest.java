@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class DateUtilsTest {
   
   @Test
-  void shouldParseDate() throws ParseException {
+  void shouldParseDate() {
     //given
     String dateString = "2017-01-26T09:14:23 -01:00";
     
@@ -19,7 +19,7 @@ class DateUtilsTest {
     Instant parsedDate = DateUtils.parseDate(dateString);
     
     //then
-    assertThat(parsedDate).isBeforeOrEqualTo("2017-01-26T10:15:00Z");
-    assertThat(parsedDate).isAfterOrEqualTo("2017-01-26T10:14:00Z");
+    assertThat(parsedDate).isBeforeOrEqualTo("2017-01-26T10:15:00Z")
+            .isAfterOrEqualTo("2017-01-26T10:14:00Z");
   }
 }

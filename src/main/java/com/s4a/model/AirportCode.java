@@ -14,13 +14,16 @@ public enum AirportCode {
     GDN,
     KRK,
     PPX;
-    
-    public static AirportCode of(String IATACodeString) {
-        return valueOf(IATACodeString.trim().toUpperCase(Locale.getDefault()));
+
+    private final static Random RANDOM = new Random();
+
+    public static AirportCode of(String iataCodeString) {
+        return valueOf(iataCodeString.trim().toUpperCase(Locale.getDefault()));
     }
 
     public static AirportCode random() {
         int possibilities = values().length;
-        return values()[new Random().nextInt(possibilities)];
+        return values()[RANDOM.nextInt(possibilities)];
+
     }
 }

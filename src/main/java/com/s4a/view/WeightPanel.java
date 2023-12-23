@@ -15,9 +15,9 @@ import java.util.ResourceBundle;
 
 public class WeightPanel extends JPanel {
   
-  private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
-  private LoadDistribution distribution;
-  private ExceptionsHandler exceptionsHandler;
+  private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
+  private final transient LoadDistribution distribution;
+  private final transient ExceptionsHandler exceptionsHandler;
   private JDatePickerImpl datePicker;
   private final JFormattedTextField flightNoField;
   private final JLabel resultValues;

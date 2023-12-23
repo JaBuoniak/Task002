@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 
 public class FileUtils {
   
-  private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
-  
+  private final static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
+
   public static File chooseFile(Component parentComponent, String defaultPath) {
     JFileChooser fileChooser = new JFileChooser(defaultPath);
     fileChooser.setFileFilter(new FileNameExtensionFilter(BUNDLE.getString("FileUtils.fileTypeDescription"), BUNDLE.getString("FileUtils.fileExtension")));
@@ -18,4 +18,6 @@ public class FileUtils {
     }
     return null;
   }
+
+  private FileUtils() {}
 }

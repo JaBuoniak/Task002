@@ -1,7 +1,7 @@
 package com.s4a.exceptions;
 
 public class NoSuchFlightException extends Throwable {
-    private int id;
+    private final int id;
 
     public NoSuchFlightException(int id) {
         this.id = id;

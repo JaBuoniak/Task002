@@ -13,19 +13,17 @@ import java.time.Instant;
 import java.util.ResourceBundle;
 
 public class TrafficPanel extends JPanel {
-    private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
     private JDatePickerImpl datePicker;
     private final JLabel resultValues;
-    private LoadDistribution distribution;
-    private ExceptionsHandler exceptionsHandler;
+    private final LoadDistribution distribution;
     private final JComboBox<AirportCode> airportCodeComboBox;
     private final JButton calculateTrafficButton;
 
     public TrafficPanel(LoadDistribution distribution, ExceptionsHandler exceptionsHandler) {
         super(new GridBagLayout());
         this.distribution = distribution;
-        this.exceptionsHandler = exceptionsHandler;
-    
+
         try {
             datePicker = ViewUtils.createDatePicker();
         } catch (IOException e) {
@@ -48,11 +46,11 @@ public class TrafficPanel extends JPanel {
 
         JPanel resultPanel = new JPanel(new BorderLayout());
         resultPanel.add(new JLabel("<html>" +
-                BUNDLE.getString("Result.Traffic.Header") + "&nbsp;<br>"+
-                BUNDLE.getString("Result.Traffic.DepartedFlights") + "&nbsp;<br>"+
-                BUNDLE.getString("Result.Traffic.ArrivedFlights") + "&nbsp;<br>"+
-                BUNDLE.getString("Result.Traffic.DepartedBaggage") + "&nbsp;<br>"+
-                BUNDLE.getString("Result.Traffic.ArrivedBaggage") + "&nbsp;</html>"),
+                BUNDLE.getString("Result.Traffic.Header") + "<br>"+
+                BUNDLE.getString("Result.Traffic.DepartedFlights") + "<br>"+
+                BUNDLE.getString("Result.Traffic.ArrivedFlights") + "<br>"+
+                BUNDLE.getString("Result.Traffic.DepartedBaggage") + "<br>"+
+                BUNDLE.getString("Result.Traffic.ArrivedBaggage") + "</html>"),
                 BorderLayout.WEST);
         resultPanel.add(resultValues, BorderLayout.CENTER);
         add(resultPanel, ViewUtils.createGridPlacement(2,0));

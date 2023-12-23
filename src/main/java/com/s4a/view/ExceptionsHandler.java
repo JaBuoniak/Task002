@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class ExceptionsHandler {
   
-  private Component parent;
+  private final Component parent;
   
   public ExceptionsHandler(Component parent) {
     this.parent = parent;

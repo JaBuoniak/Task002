@@ -2,13 +2,10 @@ package com.s4a;
 
 import com.s4a.exceptions.FlightAlreadyExistsException;
 import com.s4a.exceptions.JsonParseException;
-import com.s4a.model.AirportCode;
 import com.s4a.model.Flight;
 import com.s4a.utils.DateUtils;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;

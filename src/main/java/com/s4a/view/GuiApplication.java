@@ -9,14 +9,12 @@ import java.util.ResourceBundle;
 
 public class GuiApplication {
 
-  private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
-  private LoadDistribution distribution;
-  private final JPanel mainPanel;
+  private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
   private final JFrame frame;
 
   public GuiApplication() {
-    distribution = new LoadDistribution();
-    mainPanel = new JPanel(new GridBagLayout());
+    LoadDistribution distribution = new LoadDistribution();
+    JPanel mainPanel = new JPanel(new GridBagLayout());
     ExceptionsHandler exceptionsHandler = new ExceptionsHandler(mainPanel);
     
     mainPanel.add(new ImportPanel(distribution, exceptionsHandler), ViewUtils.createGridPlacement(0,0));

@@ -20,9 +20,9 @@ public class ImportPanel extends JPanel {
 
     public static final String DEFAULT_FLIGHTS_FILE = "src/main/resources/com/s4a/data/flights.json";
     private static final String DEFAULT_LOADS_FILE = "src/main/resources/com/s4a/data/loads.json";
-    private static ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
-    private final LoadDistribution distribution;
-    private ExceptionsHandler exceptionsHandler;
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("com/s4a/view/Bundle");
+    private final transient LoadDistribution distribution;
+    private final transient ExceptionsHandler exceptionsHandler;
     private final JButton importLoadButton;
     private final JButton importFlightsButton;
     private final JLabel importedFlightsLabel;

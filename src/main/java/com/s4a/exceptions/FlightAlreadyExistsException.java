@@ -1,6 +1,6 @@
 package com.s4a.exceptions;
 
-public class FlightAlreadyExistsException extends Throwable {
+public class FlightAlreadyExistsException extends Exception {
 
     private final int id;
 

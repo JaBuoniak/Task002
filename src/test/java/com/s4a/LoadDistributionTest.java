@@ -15,10 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LoadDistributionTest {
 
     @Test
+    @SuppressWarnings("Add at least one assertion to this test case")
     void shouldThrowExceptionWhenTriesAddLoadToNonexistentFlight() {
-        //given
-        TestDataUtil testData = new TestDataUtil();
-
+        //TODO
     }
 
     @Test

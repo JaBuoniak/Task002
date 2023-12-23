@@ -34,7 +34,7 @@ public class ViewUtils {
     gbc.ipadx = 0;
     gbc.insets = new Insets(5, 5, 5, 5);
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    
+
     return gbc;
   }
 
@@ -59,4 +59,6 @@ public class ViewUtils {
     JDatePanelImpl datePanel = new JDatePanelImpl(model, properties);
     return new JDatePickerImpl(datePanel, new DateComponentFormatter());
   }
+
+  private ViewUtils() {}
 }

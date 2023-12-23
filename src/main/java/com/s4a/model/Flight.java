@@ -4,19 +4,19 @@ import com.s4a.exceptions.JsonParseException;
 import com.s4a.utils.DateUtils;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Flight {
-    final public int id;
-    final public int number;
-    final private AirportCode departureAirportIATACode;
-    final private AirportCode arrivalAirportIATACode;
-    final private Instant departureDate;
-    final private List<Load> baggage;
-    final private List<Load> cargo;
+    public final int id;
+    public final int number;
+    private final AirportCode departureAirportIATACode;
+    private final AirportCode arrivalAirportIATACode;
+    private final Instant departureDate;
+    private final List<Load> baggage;
+    private final List<Load> cargo;
 
     public Flight(int flightId, int flightNumber, AirportCode departureAirportIATACode, AirportCode arrivalAirportIATACode, Instant departureDate) {
         this.id = flightId;
@@ -38,7 +38,7 @@ public class Flight {
                     AirportCode.of(jsonObject.getString("departureAirportIATACode")),
                     AirportCode.of(jsonObject.getString("arrivalAirportIATACode")),
                     DateUtils.parseDate(departureDate));
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
             String exceptionMessage = "Parse failure during data import from JSON format.\n" +
                     "Could not recognize date format of [" + departureDate + "] for flight ID: " + flightId +
                     e.getMessage();
